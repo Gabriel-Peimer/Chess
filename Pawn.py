@@ -1,24 +1,12 @@
 import Board
+from BasePieceClass import BasePiece
 from Queen import Queen
 from Knight import Knight
 from Bishop import Bishop
 from Rook import Rook
 
 
-class Pawn:
-    def __init__(self, color, location, board):
-        self.color = color
-        self.location = location
-        board[self.location[0]][self.location[1]] = self
-
-    def move_piece(self, position, board):
-        board[self.location[0]][self.location[1]] = " "
-        self.location = position
-        self.update_location(board)
-
-    def update_location(self, board):
-        board[self.location[0]][self.location[1]] = self
-
+class Pawn(BasePiece):
     def find_possible_positions(self, board, y_position, x_position):
         if self.capture_piece_possible(board, (y_position, x_position)):
             return True

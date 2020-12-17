@@ -1,11 +1,10 @@
+import BasePieceClass
 import Board
 
 
-class King:
+class King(BasePieceClass.BasePiece):
     def __init__(self, color, location, board):
-        self.color = color
-        self.location = location
-        board[self.location[0]][self.location[1]] = self
+        super().__init__(color, location, board)
         self.has_moved = False
 
     def move_piece(self, position, board):
@@ -13,9 +12,6 @@ class King:
         self.location = position
         self.update_location(board)
         self.has_moved = True
-
-    def update_location(self, board):
-        board[self.location[0]][self.location[1]] = self
 
     def castle(self, board, x_position):
         if not self.has_moved:

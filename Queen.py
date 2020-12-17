@@ -1,20 +1,8 @@
+from BasePieceClass import BasePiece
 import Board
 
 
-class Queen:
-    def __init__(self, color, location, board):
-        self.color = color
-        self.location = location
-        board[self.location[0]][self.location[1]] = self
-
-    def move_piece(self, position, board):
-        board[self.location[0]][self.location[1]] = " "
-        self.location = position
-        self.update_location(board)
-
-    def update_location(self, board):
-        board[self.location[0]][self.location[1]] = self
-
+class Queen(BasePiece):
     def find_possible_positions(self, board, y_position, x_position):
         is_way_free = True
 

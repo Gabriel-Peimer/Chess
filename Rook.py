@@ -1,11 +1,10 @@
+from BasePieceClass import BasePiece
 import Board
 
 
-class Rook:
+class Rook(BasePiece):
     def __init__(self, color, location, board):
-        self.color = color
-        self.location = location
-        board[self.location[0]][self.location[1]] = self
+        super().__init__(color, location, board)
         self.has_moved = False
 
     def move_piece(self, position, board):
@@ -13,9 +12,6 @@ class Rook:
         self.location = position
         self.update_location(board)
         self.has_moved = True
-
-    def update_location(self, board):
-        board[self.location[0]][self.location[1]] = self
 
     def find_possible_positions(self, board, y_position, x_position):
         is_way_free = True
