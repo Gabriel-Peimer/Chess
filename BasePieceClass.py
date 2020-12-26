@@ -12,6 +12,7 @@ class BasePiece:
         board[self.location[0]][self.location[1]] = " "
         self.location = position
         self.update_location(board)
+        # returning the score that the player has gained in that move
 
     def update_location(self, board):
         board[self.location[0]][self.location[1]] = self

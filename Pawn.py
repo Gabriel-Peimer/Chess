@@ -8,54 +8,61 @@ from Rook import Rook
 
 class Pawn(BasePiece):
     def find_possible_positions(self, board, y_position, x_position):
-        if self.capture_piece_possible(board, (y_position, x_position)):
-            return True
+        if self.color == Board.white:
+            if board[y_position][x_position] != " ":
+                if board[y_position][x_position].color == Board.black:
+                    if not Board.check_position_full(board, (y_position, x_position), self.color):
+                        if self.capture_piece_possible(board, (y_position, x_position)):
+                            return True
 
-        if self.color == "white":
             # if the player wants to continue forward
-            if self.location[0] == 6 and y_position == 4 and self.location[1] == x_position:
+            if self.location[0] == 6 and y_position == 4 and self.location[1] == x_position and\
+                    board[self.location[0] - 1][self.location[1]] == " ":
                 if board[y_position][x_position] == " ":
                     return True
             elif y_position + 1 == self.location[0] and x_position == self.location[1]:
-                if not Board.check_position_full(board, (y_position, x_position), "white") and\
-                        not Board.check_position_full(board, (y_position, x_position), "black"):
+                if not Board.check_position_full(board, (y_position, x_position), Board.white) and\
+                        not Board.check_position_full(board, (y_position, x_position), Board.black):
                     return True
             return False
 
-        elif self.color == "black":
+        elif self.color == Board.black:
+            if board[y_position][x_position] != " ":
+                if board[y_position][x_position].color == Board.white:
+                    if not Board.check_position_full(board, (y_position, x_position), self.color):
+                        if self.capture_piece_possible(board, (y_position, x_position)):
+                            return True
+
             # if the player wants to continue forward
-            if self.location[0] == 1 and y_position == 3 and self.location[1] == x_position:
+            if self.location[0] == 1 and y_position == 3 and self.location[1] == x_position and\
+                    board[self.location[0] + 1][self.location[1]] == " ":
                 if board[y_position][x_position] == " ":
                     return True
             if y_position - 1 == self.location[0] and x_position == self.location[1]:
-                if not Board.check_position_full(board, (y_position, x_position), "white") and \
-                        not Board.check_position_full(board, (y_position, x_position), "black"):
+                if not Board.check_position_full(board, (y_position, x_position), Board.white) and \
+                        not Board.check_position_full(board, (y_position, x_position), Board.black):
                     return True
             return False
 
     def capture_piece_possible(self, board, position):
-        if not Board.check_position_full(board, position, self.color):
-            if board[position[0]][position[1]] != " ":
+        if position[0] < 0 or position[1] < 0 or position[0] > 7 or position[1] > 7:
+            return False
 
-                if self.color == "white":
-                    if board[position[0]][position[1]].color == "black":
-                        # checking for the possibility of capturing
-                        # right turn
-                        if position[0] + 1 == self.location[0] and position[1] - 1 == self.location[1]:
-                            return True
-                        # left turn
-                        elif position[0] + 1 == self.location[0] and position[1] + 1 == self.location[1]:
-                            return True
+        if self.color == Board.white:
+            # right turn
+            if position[0] + 1 == self.location[0] and position[1] - 1 == self.location[1]:
+                return True
+            # left turn
+            elif position[0] + 1 == self.location[0] and position[1] + 1 == self.location[1]:
+                return True
 
-                elif self.color == "black":
-                    if board[position[0]][position[1]].color == "white":
-                        # checking for the possibility of capturing
-                        # right turn
-                        if position[0] - 1 == self.location[0] and position[1] - 1 == self.location[1]:
-                            return True
-                        # left turn
-                        elif position[0] - 1 == self.location[0] and position[1] + 1 == self.location[1]:
-                            return True
+        elif self.color == Board.black:
+            # right turn
+            if position[0] - 1 == self.location[0] and position[1] - 1 == self.location[1]:
+                return True
+            # left turn
+            elif position[0] - 1 == self.location[0] and position[1] + 1 == self.location[1]:
+                return True
         return False
 
     def switch_piece(self, board, piece_type):
